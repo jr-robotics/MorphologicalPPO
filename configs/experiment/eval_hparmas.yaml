@@ -1,0 +1,15 @@
+# @package _global_
+defaults:
+  - override /agent: sb3_flex_varppo
+
+
+task_name: "eval_hparams"
+
+agent.clip_range: 0.13807904071618782
+
+learner:
+  total_timesteps: 1000000
+
+callbacks:
+  eval_callback:
+    callback_on_new_best: null

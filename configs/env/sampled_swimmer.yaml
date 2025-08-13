@@ -1,0 +1,71 @@
+defaults:
+  - default
+
+train_env:
+  _target_: ${env.vec_env}
+  env_id: ${env.env_id}
+  env_kwargs:
+    xml_creator: ${env.xml_creator}
+    xml_path: ${env.xml_path}
+    xml_params:
+      num_seg: 
+        _target_: src.envs.common.parameter.RandomParameter
+        low: 3
+        high: 11
+    stack_edge_attr: false
+  n_envs: 6
+  vec_env_cls: ${env.vec_env_cls}
+  seed: ${seed}
+
+
+eval_env:
+  _target_: ${env.vec_env}
+  env_id: ${env.env_id}
+  env_kwargs:
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 3
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 4
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 5
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 6
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 7
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 8
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 9
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 10
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 11
+      stack_edge_attr: false
+  vec_env_cls: ${env.vec_env_cls}
+  seed: ${seed}

@@ -1,0 +1,27 @@
+id: ParameterizebleSwimmerEnv
+version: 0
+
+register:
+  _target_: gymnasium.envs.registration.register
+  id: ${env.id}-${env.version}
+  entry_point: src.envs.swimmer:${env.id}
+  reward_threshold: 360
+  max_episode_steps: 1000
+  order_enforce: True
+
+xml_creator:
+  _target_: src.envs.swimmer.gen_swimmer_config
+  _partial_: true
+
+xml_path: ${hydra:runtime.output_dir}/xml
+
+env_id:
+  _target_: gymnasium.make
+  _partial_: true
+  id: ${env.id}-${env.version}
+
+vec_env: src.envs.common.env_util.make_vec_env
+
+vec_env_cls: 
+    _target_: src.envs.common.vec_env.GraphVecEnv
+    _partial_: true

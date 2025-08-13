@@ -1,0 +1,156 @@
+seed: 1234
+task_name: hparams_search_clip_range
+log_dir: ./logs
+run_id: ${task_name}/${now:%Y-%m-%d_%H-%M-%S}
+checkpoint_path: ${hydra:runtime.output_dir}/checkpoints
+tensorboard_path: ${hydra:runtime.output_dir}/tensorboard
+env:
+  id: ParameterizebleSwimmerEnv
+  version: 0
+  register:
+    _target_: gymnasium.envs.registration.register
+    id: ${env.id}-${env.version}
+    entry_point: src.envs.swimmer:${env.id}
+    reward_threshold: 360
+    max_episode_steps: 1000
+    order_enforce: true
+  xml_creator:
+    _target_: src.envs.swimmer.gen_swimmer_config
+    _partial_: true
+  xml_path: ${hydra:runtime.output_dir}/xml
+  env_id:
+    _target_: gymnasium.make
+    _partial_: true
+    id: ${env.id}-${env.version}
+  vec_env: src.envs.common.env_util.make_vec_env
+  vec_env_cls:
+    _target_: src.envs.common.vec_env.GraphVecEnv
+    _partial_: true
+  train_env:
+    _target_: ${env.vec_env}
+    env_id: ${env.env_id}
+    env_kwargs:
+      xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg:
+          _target_: src.envs.common.parameter.RandomParameter
+          low: 3
+          high: 11
+      stack_edge_attr: false
+    n_envs: 6
+    vec_env_cls: ${env.vec_env_cls}
+    seed: ${seed}
+  eval_env:
+    _target_: ${env.vec_env}
+    env_id: ${env.env_id}
+    env_kwargs:
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 3
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 4
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 5
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 6
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 7
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 8
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 9
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 10
+      stack_edge_attr: false
+    - xml_creator: ${env.xml_creator}
+      xml_path: ${env.xml_path}
+      xml_params:
+        num_seg: 11
+      stack_edge_attr: false
+    vec_env_cls: ${env.vec_env_cls}
+    seed: ${seed}
+policy:
+  _target_: src.policies.flex_actor_critc.FlexActorCritic
+  _partial_: true
+  features_extractor_class:
+    _target_: src.common.layers.features_extractor.AugmentedGraphExtractor
+    _partial_: true
+    model:
+      _target_: src.models.gnn.AugmentedGraphEncoder
+      _partial_: true
+      global_encoder:
+        _target_: src.models.gnn.DenseNet
+        _partial_: true
+        hidden:
+        - 128
+      graph_encoder:
+        _target_: src.models.gnn.NNConvEdgeEncoder
+        _partial_: true
+        hidden_channels:
+        - 24
+    features_dim: 16
+agent:
+  _target_: src.agents.flex_ppo.VarFlexPPO
+  policy: ${policy}
+  env: ${env.train_env}
+  learning_rate: 0.01
+  n_steps: 1024
+  batch_size: 256
+  gamma: 0.98
+  gae_lambda: 0.98
+  ent_coef: 0.0
+  clip_range: 0.1369410443120632
+  verbose: 1
+  tensorboard_log: ${tensorboard_path}
+  seed: ${seed}
+  device: cpu
+learner:
+  _target_: src.wrappers.learner.sb3_learner
+  callback: null
+  total_timesteps: 5000000
+callbacks:
+  eval_callback:
+    _target_: stable_baselines3.common.callbacks.EvalCallback
+    callback_on_new_best:
+      _target_: stable_baselines3.common.callbacks.StopTrainingOnRewardThreshold
+      reward_threshold: 500
+      verbose: 1
+    eval_env: ${env.eval_env}
+    best_model_save_path: ${checkpoint_path}/best_model
+    log_path: ${checkpoint_path}/logs
+    n_eval_episodes: 5
+    eval_freq: 10000
+    deterministic: true
+    render: false
+    verbose: 1
+  checkpoint_callback:
+    _target_: stable_baselines3.common.callbacks.CheckpointCallback
+    save_freq: 1000
+    save_path: ${checkpoint_path}/periodic
+    save_replay_buffer: false
+    save_vecnormalize: false
+agent.learning_rate: 0.01
+learner.total_timesteps: 1000000

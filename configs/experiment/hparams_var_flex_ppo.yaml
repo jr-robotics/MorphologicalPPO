@@ -1,0 +1,17 @@
+# @package _global_
+defaults:
+  - override /agent: sb3_flex_varppo
+  - override /hparams_search: optuna
+
+task_name: "hparams_search_clip_range"
+
+hydra:
+  sweeper:
+    params:
+      agent.clip_range: interval(0.01, 0.3)
+
+agent.learning_rate: 0.01
+
+learner.total_timesteps: 1000000
+
+
