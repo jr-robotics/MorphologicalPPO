@@ -118,8 +118,6 @@ python inference.py --run logs/multiruns/../<run_dir>
 ```
 to evaluate all checkpoints found in <run_dir>/checkpoints/periodic and stores the mean episodic reward in <run_dir>/inference/evaluation_results.csv
 
-
-### 4. Inference
 Running the code below evaluates the best policy (<run_dir>/checkpoints/best_model/best_model.zip) and stores rendered images to (<run_dir>/images) along with an mp4 video.
 ```bash
 python render_policy.py --run logs/multiruns/../<run_dir>
