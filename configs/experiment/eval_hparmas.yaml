@@ -5,7 +5,7 @@ defaults:
 
 task_name: "eval_hparams"
 
-agent.clip_range: 0.13807904071618782
+agent.clip_range: 0.11108322100140984
 
 learner:
   total_timesteps: 1000000

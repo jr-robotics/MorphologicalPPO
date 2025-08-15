@@ -8,7 +8,7 @@ batch_size: 256
 gamma: 0.98
 gae_lambda: 0.98
 ent_coef: 0.0
-clip_range: 0.13807904071618782
+clip_range: 0.11108322100140984
 verbose: 1
 tensorboard_log: ${tensorboard_path}
 seed: ${seed}
