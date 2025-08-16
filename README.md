@@ -38,7 +38,7 @@ Experiments in the **Gymnasium Swimmer** environment, where morphology can be sy
 
 > **Note:**  
 > • All experiments in the paper were conducted on **Ubuntu 20.04.6 LTS (CUDA 12.2)** with **Python 3.11**.  
-> • All code is developed based on **[Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3)**.
+> • All code is developed based on **[Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3)** and we used **[Hydra](https://hydra.cc/)** for the configuration manangement.
 
    ```bash
    git clone https://github.com/jr-robotics/MorphologicalPPO.git
