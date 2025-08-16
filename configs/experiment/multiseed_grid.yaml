@@ -1,0 +1,21 @@
+# @package _global_
+defaults:
+  - override /hydra/launcher: ray  # move this here!
+  - override /hparams_search: gridsearch
+
+task_name: "multiseed_grid"
+
+learner:
+  total_timesteps: 1000000
+
+hydra:
+  sweeper:
+    params: 
+      seed: 1234,1235,1236,1237,1238,1239,1240,1241,1242,1243,1244,1245,1246,1247,1248
+    
+# We want to run all experiments at maximum lenght --> disable early stopping
+callbacks:
+  eval_callback:
+    callback_on_new_best: null
+
+    

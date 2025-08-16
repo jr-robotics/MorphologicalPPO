@@ -123,3 +123,11 @@ Running the code below evaluates the best policy (<run_dir>/checkpoints/best_mod
 python render_policy.py --run logs/multiruns/../<run_dir>
 ```
 However, this requires that (<run_dir>/inference/config.yaml) exist.
+
+To reproduce the results from the papare run:
+```bash
+python train.py -m experiment=multiseed_grid agent=sb3_flex_ppo,sb3_flex_varppo # vary seeds
+python inference.py --run logs/multiruns/inference/<timestamp>/0/               # inference agent 1
+python inference.py --run logs/multiruns/inference/<timestamp>/1/               # inference agent 2
+python visualize_inference.py --run /logs/multiruns/multiseed_grid/<timestamp>  # evaluates and plot
+```
