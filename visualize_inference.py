@@ -230,7 +230,7 @@ if __name__ == "__main__":
     )
     
     save_image(
-        fig=fig_val_varppo,
+        fig=fig_val_ppo,
         filename=destination.joinpath("fig_valppo.svg"),
         width_mm=plot_config.figure_width,
         aspect_ratio=plot_config.aspect_ratio
@@ -406,9 +406,10 @@ if __name__ == "__main__":
             
         )
     )
+
     
     fig_train.update_layout(
-        xaxis=dict(title=dict(text="Timesteps")),
+        xaxis=dict(title=dict(text="Timesteps"), tickformat="~s"),
         yaxis=dict(title=dict(text="Mean Episode Reward")),
         legend=dict(
             orientation='v',

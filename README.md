@@ -129,5 +129,5 @@ To reproduce the results from the papare run:
 python train.py -m experiment=multiseed_grid agent=sb3_flex_ppo,sb3_flex_varppo # vary seeds
 python inference.py --run logs/multiruns/inference/<timestamp>/0/               # inference agent 1
 python inference.py --run logs/multiruns/inference/<timestamp>/1/               # inference agent 2
-python visualize_inference.py --run /logs/multiruns/multiseed_grid/<timestamp>  # evaluates and plot
+python visualize_inference.py --run /logs/multiruns/multiseed_grid/<timestamp>  # evaluates and plots
 ```
