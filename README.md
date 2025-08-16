@@ -44,8 +44,8 @@ Experiments in the **Gymnasium Swimmer** environment, where morphology can be sy
    git clone https://github.com/jr-robotics/MorphologicalPPO.git
    cd MorphologicalPPO
 
-   python3.11 -m venv venv
-   source venv/bin/activate
+   conda create --name venv python=3.11
+   conda activate venv
    pip install -r requirements.txt
    ```
 
