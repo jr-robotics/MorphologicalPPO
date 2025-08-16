@@ -3,7 +3,7 @@
 Official code release for the paper:
 
 > **Beyond Fixed Morphologies: Learning Graph Policies with Trust Region Compensation in Variable Action Spaces**  
-> *Thomas Gallien*  
+> *Anonymous for double blind review*  
 
 
 <p align="center">
